@@ -1,0 +1,28 @@
+def to_twos_complement(val, bits=8):
+    if val < 0:
+        val = (1 << bits) + val
+    return f"{val & ((1 << bits) - 1):0{bits}b}"
+
+def from_twos_complement(binary_str):
+    bits = len(binary_str)
+    val = int(binary_str, 2)
+    if binary_str[0] == '1':
+        val -= (1 << bits)
+    return val
+
+def solve_expression(name, op1, op2, bits=8):
+    print(f"\n--- Expression {name}: ({op1} - ({op2})) ---")
+    bin_op1 = to_twos_complement(op1, bits)
+    bin_op2 = to_twos_complement(op2, bits)
+    
+    result_val = op1 - op2
+    bin_result = to_twos_complement(result_val, bits)
+    
+    print(f"Operand 1: {bin_op1}")
+    print(f"Operand 2: {bin_op2}")
+    print(f"Final Binary Result: {bin_result}")
+    print(f"Final Decimal Result: {from_twos_complement(bin_result)}")
+    print(f"Overflow: {not (-128 <= result_val <= 127)}")
+
+solve_expression("a", 35, 29)
+solve_expression("b", -35, -12)

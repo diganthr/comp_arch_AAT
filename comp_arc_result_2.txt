@@ -1,0 +1,44 @@
+def rotate_left_without_carry(binary_str, positions):
+    print("--- a) Rotate Left Without Carry (ROL) ---")
+    print(f"Original 8-bit binary: {binary_str}")
+    
+    current = list(binary_str)
+    for i in range(1, positions + 1):
+        msb = current.pop(0)  # Remove the most significant bit
+        current.append(msb)   # Move it to the least significant bit position
+        print(f"Step {i}: {''.join(current)}")
+        
+    final_result = "".join(current)
+    print(f"Final 8-bit result   : {final_result}\n")
+    return final_result
+
+
+def rotate_left_with_carry(binary_str, positions, initial_carry='0'):
+    print("--- b) Rotate Left With Carry (RCL) ---")
+    print(f"Original 8-bit binary: {binary_str}")
+    print(f"Initial Carry Flag   : {initial_carry}")
+    
+    current_reg = list(binary_str)
+    carry = initial_carry
+    
+    for i in range(1, positions + 1):
+        old_carry = carry
+        carry = current_reg.pop(0)  # MSB becomes the new carry
+        current_reg.append(old_carry)  # Old carry becomes the new LSB
+        print(f"Step {i}: Register = {''.join(current_reg)} | Carry Flag = {carry}")
+        
+    final_result = "".join(current_reg)
+    print(f"Final 8-bit result   : {final_result}")
+    print(f"Final Carry Flag     : {carry}\n")
+    return final_result, carry
+
+
+# --- Execution and Verification ---
+if __name__ == "__main__":
+    # Task a
+    val_a = "11110110"
+    rotate_left_without_carry(val_a, 2)
+    
+    # Task b (Assuming standard initial Carry = '0')
+    val_b = "10000110"
+    rotate_left_with_carry(val_b, 2, initial_carry='0')
